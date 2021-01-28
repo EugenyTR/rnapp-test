@@ -19,9 +19,10 @@ export const AddElem = ({ onSubmit }) => {
                 style={styles.input}
                 onChangeText={text => setValue(text)}
                 value={value}
+                keyboardType="default"
                 placeholder="Введите текст"
                 // autoCorrect={false}
-                // keyboardType={numeric}
+                
             />
             <Button title='Добавить' onPress={pressHandler} />
         </View>

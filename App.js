@@ -5,10 +5,10 @@ import { AddElem } from './src/AddElem';
 import { ElemList } from './src/ElemList';
 
 export default function App() {  
-  const [elems, setElem] = React.useState([]); 
+  const [elems, setElems] = React.useState([]); 
 
   const addElem = (title) => {
-    setElem(prev => [...prev, {
+    setElems(prev => [...prev, {
       id: Date.now().toString(),
       title: title
     }])
@@ -22,8 +22,8 @@ export default function App() {
 
         {/* <FlatList 
           data={elems}
-          keyExtractor={item => item.id.toString()}
           renderItem = {({ elem }) => <ElemList elem={elem} />}
+          keyExtractor={(elem, index) => elem.id.toString()}
         /> */}
 
         <ScrollView>
