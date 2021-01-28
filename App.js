@@ -1,21 +1,46 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, ScrollView, FlatList } from 'react-native';
+import { Navbar } from './src/Navbar';
+import { AddElem } from './src/AddElem';
+import { ElemList } from './src/ElemList';
 
-export default function App() {
+export default function App() {  
+  const [elems, setElem] = React.useState([]); 
+
+  const addElem = (title) => {
+    setElem(prev => [...prev, {
+      id: Date.now().toString(),
+      title: title
+    }])
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Navbar title="Навигация по приложению" />
+      <View style={styles.addItemWrapper}>
+        <AddElem onSubmit={addElem} />
+
+        {/* <FlatList 
+          data={elems}
+          keyExtractor={item => item.id.toString()}
+          renderItem = {({ elem }) => <ElemList elem={elem} />}
+        /> */}
+
+        <ScrollView>
+          {
+            elems.map(elem => {
+              return <ElemList elem={elem} key={elem.id} />
+            })
+          }
+        </ScrollView>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  container: {},
+  addItemWrapper: {
+    paddingHorizontal: 20,
   },
 });
