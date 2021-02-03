@@ -1,46 +1,47 @@
-import React from 'react';
-import { StyleSheet, View, ScrollView, FlatList } from 'react-native';
-import { Navbar } from './src/Navbar';
-import { AddElem } from './src/AddElem';
-import { ElemList } from './src/ElemList';
+import React, {useState} from 'react';
+import { StyleSheet,  View } from 'react-native';
+import {Navbar} from './src/components/Navbar';
+import { MainScreen } from './src/screens/MainScreen';
+import { ElemScreen } from './src/screens/ElemScreen';
 
-export default function App() {  
-  const [elems, setElems] = React.useState([]); 
 
-  const addElem = (title) => {
-    setElems(prev => [...prev, {
+export default function App() {
+  const [todoId, setTodoId] = useState(null);
+  const [todos, setTodos] = useState([]);
+
+  const addTodo = (title) => {
+    setTodos(prev => [...prev, {
       id: Date.now().toString(),
-      title: title
-    }])
+      title
+    }]);
+  }
+
+  const removeTodo = id => {
+    setTodos(prev => prev.filter(todo => todo.id !== id));
+  }
+
+  let content = <MainScreen todos={todos} addTodo={addTodo} removeTodo={removeTodo} openTodo={id => {
+    setTodoId(id)
+  }} />
+
+  if (todoId) {
+    const selectedTodo = todos.find(todo => todo.id === todoId)
+    content = <ElemScreen goBack={() => setTodoId(null)} todo={selectedTodo} />
   }
 
   return (
-    <View style={styles.container}>
-      <Navbar title="Навигация по приложению" />
-      <View style={styles.addItemWrapper}>
-        <AddElem onSubmit={addElem} />
-
-        {/* <FlatList 
-          data={elems}
-          renderItem = {({ elem }) => <ElemList elem={elem} />}
-          keyExtractor={(elem, index) => elem.id.toString()}
-        /> */}
-
-        <ScrollView>
-          {
-            elems.map(elem => {
-              return <ElemList elem={elem} key={elem.id} />
-            })
-          }
-        </ScrollView>
+    <View>
+      <Navbar title="Заголовок приложения" />
+      <View style={styles.container}>
+        {content}
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
-  addItemWrapper: {
-    paddingHorizontal: 20,
-  },
+  container: {
+    paddingHorizontal: 30,
+    paddingVertical: 20
+  }
 });
