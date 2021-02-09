@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableHighlightComponent, View } from 'react-native';
-import { THEME } from '../../theme';
+import { StyleSheet, View } from 'react-native';
 
 export const AppCard = props => {
     return (

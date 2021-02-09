@@ -1,13 +1,33 @@
 import React, {useState} from 'react';
 import { StyleSheet,  View, Alert } from 'react-native';
+import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
+
 import {Navbar} from './src/components/Navbar';
 import { MainScreen } from './src/screens/MainScreen';
 import { ElemScreen } from './src/screens/ElemScreen';
 
+async function loadApp() {
+  await Font.loadAsync({
+    'robotoBold': require('./assets/fonts/Roboto-Bold.ttf'),
+    'robotoLight': require('./assets/fonts/Roboto-Light.ttf'),
+  })
+}
 
 export default function App() {
+  const [isReady, setIsReady] = useState(false);
   const [todoId, setTodoId] = useState(null);
   const [todos, setTodos] = useState([]);
+
+  if (!isReady) {
+    return (
+        <AppLoading 
+          startAsync={loadApp} 
+          onError={err => console.log(err)} 
+          onFinish={() => setIsReady(true)}
+        />
+      )
+  }
 
   const addTodo = (title) => {
     setTodos(prev => [...prev, {
@@ -43,7 +63,7 @@ export default function App() {
   const updateTodo = (id, title) => {
     setTodos(old => old.map(todo => {
       if (todo.id === id) {
-        todo.title === title
+        todo.title = title
       }
       return todo;
     }))

@@ -1,6 +1,5 @@
-import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Button, Modal, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, Button, Modal, TextInput, Alert } from 'react-native';
 import { THEME } from '../theme';
 
 export const EditModal = ({ visible, onCancel, value, onSave }) => {
@@ -10,7 +9,7 @@ export const EditModal = ({ visible, onCancel, value, onSave }) => {
         if (title.trim().length < 3) {
             Alert.alert('Ошибка', `Минимальная длина текста 3 символа. Сейчас ${title.trim().length} символов`)
         } else {
-            onSave(title)
+            onSave(title);
         }
     }
 
